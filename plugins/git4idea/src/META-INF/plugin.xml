@@ -44,6 +44,7 @@
       <reference ref="Compare.LastVersion"/>
       <reference ref="Compare.Selected"/>
       <action id="Git.CompareWithBranch" class="git4idea.actions.GitCompareWithBranchAction" text="Compare with Branch..." />
+      <action id="Git.ReplaceWithBranch" class="git4idea.actions.GitReplaceWithBranchAction" text="Replace with Branch..." />
       <reference ref="Vcs.ShowTabbedFileHistory"/>
       <reference id="Vcs.ShowHistoryForBlock"/>
       <separator/>

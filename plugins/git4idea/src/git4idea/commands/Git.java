@@ -86,6 +86,12 @@ public interface Git {
                             @NotNull GitLineHandlerListener... listeners);
 
   @NotNull
+  GitCommandResult checkoutFile(@NotNull GitRepository repository,
+                                @NotNull String reference,
+                                @Nullable String fromBranch,
+                                @Nullable GitLineHandlerListener... listeners);
+
+  @NotNull
   GitCommandResult checkoutNewBranch(@NotNull GitRepository repository, @NotNull String branchName,
                                      @Nullable GitLineHandlerListener listener);
 

@@ -16,6 +16,7 @@
 package git4idea.checkout;
 
 import com.intellij.dvcs.DvcsUtil;
+import com.intellij.dvcs.repo.Repository;
 import com.intellij.dvcs.ui.DvcsBundle;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
@@ -33,6 +34,7 @@ import git4idea.commands.Git;
 import git4idea.commands.GitCommandResult;
 import git4idea.commands.GitLineHandlerListener;
 import git4idea.commands.GitStandardProgressAnalyzer;
+import git4idea.repo.GitRepository;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -130,5 +132,29 @@ public class GitCheckoutProvider extends CheckoutProviderEx {
   public void doCheckout(@NotNull Project project,
                          @Nullable Listener listener) {
     doCheckout(project, listener, null);
+  }
+
+  /**
+   * Public method to allow files to be replace by another from a different branch
+   *
+   * @param project
+   * @param git
+   * @param repository
+   * @param reference
+   * @param fromBranch
+   * @return
+   */
+  public static boolean checkoutFile(@NotNull Project project, @NotNull Git git, @NotNull GitRepository repository,
+                                     @NotNull String reference, @NotNull String fromBranch) {
+
+    //ProgressIndicator indicator = ProgressManager.getInstance().getProgressIndicator();
+    //indicator.setIndeterminate(false);
+    //GitLineHandlerListener progressListener = GitStandardProgressAnalyzer.createListener(indicator);
+    GitCommandResult result = git.checkoutFile(repository, reference, fromBranch, null);
+    if (result.success()) {
+      return true;
+    }
+    VcsNotifier.getInstance(project).notifyError("Checkout failed", result.getErrorOutputAsHtmlString());
+    return false;
   }
 }

@@ -281,6 +281,32 @@ public class GitImpl implements Git {
   }
 
   /**
+   * {@code git checkout &lt;reference&gt;} <br/>
+   * {@code git checkout &lt;fromBranch&gt; -- &lt;reference&gt;}
+   */
+  @NotNull
+  @Override
+  public GitCommandResult checkoutFile(@NotNull GitRepository repository,
+                                   @NotNull String reference,
+                                   @Nullable String fromBranch,
+                                   @Nullable GitLineHandlerListener... listeners) {
+    final GitLineHandler h = new GitLineHandler(repository.getProject(), repository.getRoot(), GitCommand.CHECKOUT);
+    h.setSilent(false);
+    h.setStdoutSuppressed(false);
+    h.addParameters(fromBranch);
+    h.endOptions();
+    h.addParameters(reference);
+
+    if (listeners != null && listeners.length > 0) {
+      for (GitLineHandlerListener listener : listeners) {
+        h.addLineListener(listener);
+      }
+    }
+
+    return run(h);
+  }
+
+  /**
    * {@code git checkout -b &lt;branchName&gt;}
    */
   @NotNull
